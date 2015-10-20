@@ -1,0 +1,23 @@
+ridgereg1 <- function(y,x, lambda = 0){
+  X <- as.matrix(x)
+  y <- as.numeric(y)
+  I <- diag(x = 1, nrow=ncol(X),ncol=ncol(X))
+  bhat <- solve(t(X)%*%X+lambda*I)%*%(t(X)%*%y)
+  bhat <- as.vector(bhat)
+#   X_blabla <- sqrt(lambda) * diag(ncol(X))
+#   X_bind <- rbind(X,X_blabla)
+#   y_bind <- as.matrix(c(y, rep(0, ncol(X))),ncol = 1)
+#   qr_Xb <- qr(X_bind)
+#   bhat <- qr.solve(qr.R(qr_Xb)) %*% t(qr.Q(qr_Xb)) %*% as.matrix(y_bind)
+  yhat <- as.vector(X %*% bhat)
+  residual <- as.vector(y - yhat)
+  names(bhat) <- colnames(x)
+  names(yhat) <- names(y)
+  names(residual) <- c("res")
+  result <- list(coefficients = bhat, fitted = yhat, residuals = residual)
+  result$call <- match.call()
+  class(result) <- "ridgereg1"
+  return(result)
+#   object <- stucture(result, class = "ridgereg1")
+#   return(object)
+}
