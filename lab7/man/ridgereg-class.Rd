@@ -32,7 +32,7 @@ Function for ridge regression
 \examples{
 ridgereg1 <- ridgereg(formula = Petal.Length ~ Species, data = iris, lambda = 0)
 ridgereg1$print()
-ridgereg1$coeff()
+ridgereg1$coef()
 ridgereg1$pred()
 }
 
