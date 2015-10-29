@@ -110,11 +110,11 @@ comparasion of 3 models
 m1 <- predict(lmfit, testing)
 m2 <- predict(forwardfit,testing)
 m3 <- predict(myfit, testing)
-par(mfrow=c(2,2))
+
 plot(m1, type = "l")
 plot(m2, type = "l")
-# plot(m3, type = "l")
-plot(testing$medv, type = "l")
-par(mfrow=c(1,1))
+plot(m3, type = "l")
+
+
 ```
 

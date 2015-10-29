@@ -8,13 +8,15 @@ Maintainer: yixuan<yixxu916@student.liu.se>
 Description: More about what it does (maybe more than one line)
 License: GPL-2 | GPL-3
 Depends: R (>= 3.1.0)
-Suggests: testthat,
-          knitr,
-          devtools,
-          roxygen2,
-          rmarkdown
+Suggests: ggplot2,
+	testthat,
+	knitr,
+	rmarkdown,
+	dplyr,
+	nycflights13,
+	leaps
 Imports: dplyr,
-         ggplot2,
-         nycflights13,
-         caret
+	ggplot2,
+	nycflights13,
+	leaps
 VignetteBuilder: knitr
