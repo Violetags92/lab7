@@ -1,9 +1,9 @@
-predict.ridgereg1 <- function(x, newdata = NULL){
-  if (is.null(newdata)){
-    return(x$fitted)
+predict.ridgereg1 <- function(x, newdata = "default"){
+  if(identical(newdata, "default")){
+    return(x$y_hat)
   }else{
-    newdata <- as.matrix(newdata)
-    R <- as.vector(newdata %*% x$coefficients)
-    return(R)
+    X <- as.matrix(cbind(1, newdata))
+    y_hat <- X %*% x$bhat
+    return(y_hat)
   }
 }

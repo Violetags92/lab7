@@ -1,58 +1,120 @@
 ---
-title: "lab7"
-author: "Yixuan & Violeta"
+title: "Ridgereg"
+author: "Violeta & Yixuan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{lab7}
+  %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+now we use the BostonHousing data. 
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+```{r,echo=FALSE}
+library(lab7)
+library(mlbench)
+library(caret)
+library(lattice)
+library(ggplot2)
+data("BostonHousing")
+BostonHousing$chas <- as.numeric(BostonHousing$chas)-1
+set.seed(1234)
+inTrain <- caret::createDataPartition(y = BostonHousing$crim,
+                               p = .75,
+                               list = FALSE)
+training <- BostonHousing[inTrain,]
+testing <- BostonHousing[-inTrain,]
+```
+  
+Fit a linear regression model and a fit a linear regression model with forward selection of covariates on the training dataset.
 
-## Vignette Info
+```{r,echo=FALSE}
+set.seed(1234)
+ctrl <- caret::trainControl(method = "repeatedcv",
+                     number = 10,
+                     repeats = 10
+                     )
+BostonHousing <- scale(BostonHousing)
+lmfit <- caret::train(crim~.,
+               data = training,
+               method = "lm",
+               trControl = ctrl
+              )
+lmfit
+pred_lm <- predict(lmfit, newdata=testing)
+forwardfit <- caret::train(crim~.,
+               data = training,
+               method = "leapForward",
+               trControl = ctrl
+              )
+forwardfit
+pred_for<-predict(forwardfit, newdata=testing)
+```
+  
+Fit a ridge regression model using your ridgereg1() function to the training dataset for diffrent values of $\lambda$. And the orignal function is not working with the package caret.
+  
+```{r,echo=FALSE}
+## custom models in caret
+cm <- list(type = c("Classification", "Regression"),
+           library = "lab7",
+           loop = NULL)
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+cm$parameters<-data.frame(parameter="lambda",
+                          class="numeric",
+                          label="lambda")
 
-## Styles
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+cm$fit <- function(x,y, lambda, param, lev, last, classProbs, ...){
+  dat <- as.data.frame(x)
+  dat$y <- y
+  formula <- "y ~ "
+  formula <- paste(formula, names(dat)[1], sep="")
+  if(ncol(x) > 1){
+    for(i in 2:ncol(x)){
+      formula <- paste(formula, " + ", names(dat)[i], sep="")
+    }
+  }
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+  formula <- as.formula(formula)
+  lab7::ridgereg1(formula = formula, data=dat, lambda=param$lambda)
+}
+cm$predict <- function(modelFit, newdata, preProc = NULL, submodels = NULL){
+  predict(modelFit, newdata)
+}
 
-## Figures
+cm$prob <- list(NULL)
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+cm$sort<-function(x) x[order(-x$lambda), ]
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+cm$label <- "ridgereg"
+
+
+cm$grid <- function(x,y, len = NULL,search="grid") {
+  data.frame(lambda = seq(0, 1000, by = 100))
+}
+
+set.seed(1234)
+myfit <- caret::train( crim ~ ., 
+                       data = training,
+                      method = cm,
+                      trControl = ctrl
+)
+myfit
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+the best value (lambda = 200)
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+comparasion of 3 models
+```{r, echo=FALSE}
+m1 <- predict(lmfit, testing)
+m2 <- predict(forwardfit,testing)
+m3 <- predict(myfit, testing)
+par(mfrow=c(2,2))
+plot(m1, type = "l")
+plot(m2, type = "l")
+# plot(m3, type = "l")
+plot(testing$medv, type = "l")
+par(mfrow=c(1,1))
 ```
 
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
