@@ -1,0 +1,183 @@
+\nonstopmode{}
+\documentclass[a4paper]{book}
+\usepackage[times,inconsolata,hyper]{Rd}
+\usepackage{makeidx}
+\usepackage[utf8,latin1]{inputenc}
+% \usepackage{graphicx} % @USE GRAPHICX@
+\makeindex{}
+\begin{document}
+\chapter*{}
+\begin{center}
+{\textbf{\huge Package `lab7'}}
+\par\bigskip{\large \today}
+\end{center}
+\begin{description}
+\raggedright{}
+\item[Type]\AsIs{Package}
+\item[Title]\AsIs{ridge regression}
+\item[Version]\AsIs{1.0}
+\item[Date]\AsIs{2015-10-21}
+\item[Author]\AsIs{Violeta and Yixuan}
+\item[Maintainer]\AsIs{yixuan}\email{yixxu916@student.liu.se}\AsIs{}
+\item[Description]\AsIs{multiple linear regression model, and for ridge regression.}
+\item[License]\AsIs{GPL-2}
+\item[Depends]\AsIs{R (>= 3.1.0)}
+\item[Suggests]\AsIs{ggplot2, testthat, knitr, rmarkdown, dplyr, nycflights13,
+leaps}
+\item[Imports]\AsIs{dplyr, ggplot2, nycflights13, leaps}
+\item[VignetteBuilder]\AsIs{knitr}
+\item[RoxygenNote]\AsIs{5.0.0}
+\item[NeedsCompilation]\AsIs{no}
+\end{description}
+\Rdcontents{\R{} topics documented:}
+\inputencoding{utf8}
+\HeaderA{coef.ridgereg1}{Print the estimated coefficient values of a ridgereg object}{coef.ridgereg1}
+%
+\begin{Description}\relax
+Print the estimated coefficient values of a ridgereg object
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+## S3 method for class 'ridgereg1'
+coef(x)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] A ridgereg object.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+a coefficients values.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+a <- ridgereg1(Petal.Length~Sepal.Width+Sepal.Length, data=iris, lambda=10)
+coef(a)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{predict.ridgereg1}{A method that prints out the fitted values of the ridge regression model, possibly for new data.}{predict.ridgereg1}
+%
+\begin{Description}\relax
+A method that prints out the fitted values of the ridge regression model, possibly for new data.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+## S3 method for class 'ridgereg1'
+predict(x, newdata = "default")
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] A ridgereg object.
+
+\item[\code{newdata}] Optional.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+a numeric vector.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+a <- ridgereg1(Petal.Length~Sepal.Width+Sepal.Length, data=iris, lambda=0)
+predict(a) # The fitted values
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{print.ridgereg1}{Print a ridgereg object}{print.ridgereg1}
+%
+\begin{Description}\relax
+Print a ridgereg object
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+## S3 method for class 'ridgereg1'
+print(x)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] A ridgereg object.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+coefficients.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+a <- ridgereg1(Petal.Length~Sepal.Width+Sepal.Length, data=iris, lambda=0)
+print(a)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{ridgereg1}{A function for ridge regression.}{ridgereg1}
+%
+\begin{Description}\relax
+A function for ridge regression.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ridgereg1(formula, data, lambda = 0)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{formula}] A formula (e.g. y \textasciitilde{} x)
+
+\item[\code{data}] data frame
+
+\item[\code{lambda}] lambda
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+ridgereg object.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+a <- ridgereg1(Sepal.Length ~ Sepal.Width + Petal.Length, iris, 0)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{visualize\_airport\_delays}{Handling large datasets with dplyr}{visualize.Rul.airport.Rul.delays}
+%
+\begin{Description}\relax
+Handling large datasets with dplyr
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+visualize_airport_delays()
+\end{verbatim}
+\end{Usage}
+%
+\begin{Value}
+A plot.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+library("dplyr")
+library("ggplot2")
+library("nycflights13")
+visualize_airport_delays()
+\end{ExampleCode}
+\end{Examples}
+\printindex{}
+\end{document}

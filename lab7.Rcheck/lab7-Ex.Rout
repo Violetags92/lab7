@@ -1,0 +1,305 @@
+
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "lab7"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> base::assign(".ExTimings", "lab7-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('lab7')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("coef.ridgereg1")
+> ### * coef.ridgereg1
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: coef.ridgereg1
+> ### Title: Print the estimated coefficient values of a ridgereg object
+> ### Aliases: coef.ridgereg1
+> 
+> ### ** Examples
+> 
+> a <- ridgereg1(Petal.Length~Sepal.Width+Sepal.Length, data=iris, lambda=10)
+> coef(a)
+ (Intercept)  Sepal.Width Sepal.Length 
+  -0.3792297   -1.3506924    1.4190580 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("coef.ridgereg1", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("predict.ridgereg1")
+> ### * predict.ridgereg1
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: predict.ridgereg1
+> ### Title: A method that prints out the fitted values of the ridge
+> ###   regression model, possibly for new data.
+> ### Aliases: predict.ridgereg1
+> 
+> ### ** Examples
+> 
+> a <- ridgereg1(Petal.Length~Sepal.Width+Sepal.Length, data=iris, lambda=0)
+> predict(a) # The fitted values
+    Petal.Length
+1      1.8455790
+2      2.1597721
+3      1.5369289
+4      1.4932320
+5      1.5341574
+6      1.8428074
+7      1.0916450
+8      1.8018820
+9      1.4058382
+10     2.0259098
+11     2.1105321
+12     1.4467635
+13     1.9822128
+14     1.0944166
+15     2.4191821
+16     1.7061735
+17     1.8428074
+18     1.8455790
+19     2.5093475
+20     1.4439920
+21     2.5121191
+22     1.5778543
+23     0.8239204
+24     2.1133036
+25     1.4467635
+26     2.3373314
+27     1.8018820
+28     2.0231382
+29     2.1570005
+30     1.5369289
+31     1.8483505
+32     2.5121191
+33     1.2199642
+34     1.6187797
+35     2.0259098
+36     2.0696067
+37     2.5558160
+38     1.3565981
+39     1.2719758
+40     1.9794413
+41     1.6680197
+42     2.3865714
+43     1.0042512
+44     1.6680197
+45     1.4439920
+46     1.9822128
+47     1.4439920
+48     1.3593697
+49     1.9329728
+50     1.9357444
+51     5.6207918
+52     4.5554363
+53     5.5770949
+54     4.1621639
+55     5.2684448
+56     3.8479708
+57     4.2440147
+58     2.9629461
+59     5.3121418
+60     3.0940369
+61     3.6759546
+62     3.9353646
+63     5.1838225
+64     4.4243455
+65     3.5365492
+66     5.2219764
+67     3.4026869
+68     4.1593924
+69     5.5389410
+70     4.0719985
+71     3.6676400
+72     4.5582078
+73     5.3149133
+74     4.5582078
+75     4.9570232
+76     5.1782794
+77     5.8011226
+78     5.3558387
+79     4.2467862
+80     4.1156955
+81     4.0283016
+82     4.0283016
+83     4.1593924
+84     4.5145109
+85     3.0475684
+86     3.5774746
+87     5.2219764
+88     5.5826380
+89     3.4026869
+90     3.8944393
+91     3.7605769
+92     4.2904832
+93     4.2932547
+94     3.2743677
+95     3.8042739
+96     3.5802461
+97     3.7141085
+98     4.6019047
+99     3.1842023
+100    3.8479708
+101    4.2440147
+102    4.1593924
+103    6.0660757
+104    4.7794640
+105    5.0007202
+106    6.9538720
+107    2.8290837
+108    6.5550565
+109    6.0251503
+110    5.4404610
+111    4.7329955
+112    5.2247479
+113    5.5333979
+114    4.2495578
+115    4.0255300
+116    4.5554363
+117    5.0007202
+118    6.0605326
+119    7.6668805
+120    5.1838225
+121    5.4432325
+122    3.6704115
+123    7.3991559
+124    5.0471887
+125    4.9542517
+126    5.9759103
+127    4.7357671
+128    4.2904832
+129    5.0908856
+130    6.2436350
+131    6.8664781
+132    6.4156511
+133    5.0908856
+134    4.9133263
+135    4.8259325
+136    7.1314312
+137    4.1101523
+138    4.6892986
+139    4.1129239
+140    5.5770949
+141    5.2219764
+142    5.5770949
+143    4.1593924
+144    5.2656733
+145    4.9542517
+146    5.3558387
+147    5.3149133
+148    5.0007202
+149    3.9325931
+150    3.9353646
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("predict.ridgereg1", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("print.ridgereg1")
+> ### * print.ridgereg1
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: print.ridgereg1
+> ### Title: Print a ridgereg object
+> ### Aliases: print.ridgereg1
+> 
+> ### ** Examples
+> 
+> a <- ridgereg1(Petal.Length~Sepal.Width+Sepal.Length, data=iris, lambda=0)
+> print(a)
+ (Intercept)  Sepal.Width Sepal.Length 
+   -2.524762    -1.338623     1.775593 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("print.ridgereg1", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("ridgereg1")
+> ### * ridgereg1
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: ridgereg1
+> ### Title: A function for ridge regression.
+> ### Aliases: ridgereg1
+> 
+> ### ** Examples
+> 
+> a <- ridgereg1(Sepal.Length ~ Sepal.Width + Petal.Length, iris, 0)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ridgereg1", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("visualize_airport_delays")
+> ### * visualize_airport_delays
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: visualize_airport_delays
+> ### Title: Handling large datasets with dplyr
+> ### Aliases: visualize_airport_delays
+> 
+> ### ** Examples
+> 
+> library("dplyr")
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+> library("ggplot2")
+> library("nycflights13")
+> visualize_airport_delays()
+Error in group_by_(.data, .dots = lazyeval::lazy_dots(...), add = add) : 
+  object 'all_origin' not found
+Calls: visualize_airport_delays -> summarise -> summarise_ -> group_by -> group_by_
+Execution halted

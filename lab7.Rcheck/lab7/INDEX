@@ -1,0 +1,9 @@
+coef.ridgereg1          Print the estimated coefficient values of a
+                        ridgereg object
+predict.ridgereg1       A method that prints out the fitted values of
+                        the ridge regression model, possibly for new
+                        data.
+print.ridgereg1         Print a ridgereg object
+ridgereg1               A function for ridge regression.
+visualize_airport_delays
+                        Handling large datasets with dplyr
