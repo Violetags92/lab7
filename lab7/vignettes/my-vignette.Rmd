@@ -4,14 +4,14 @@ author: "Violeta & Yixuan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{ridgereg}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+We're going to show how to do a simple prediction problem using our ridgereg() function.
+We're going to create a predictive model for the BostonHousing data (found in mlbench library) using the caret package and that ridgereg() function.
 
-now we use the BostonHousing data. 
-
-```{r,echo=FALSE}
+```{r}
 library(lab7)
 library(mlbench)
 library(caret)
@@ -20,6 +20,12 @@ library(ggplot2)
 data("BostonHousing")
 BostonHousing$chas <- as.numeric(BostonHousing$chas)-1
 set.seed(1234)
+```
+
+
+We divide the BostonHousing data into a test and training dataset:
+
+```{r}
 inTrain <- caret::createDataPartition(y = BostonHousing$crim,
                                p = .75,
                                list = FALSE)
@@ -27,9 +33,9 @@ training <- BostonHousing[inTrain,]
 testing <- BostonHousing[-inTrain,]
 ```
   
-Fit a linear regression model and a fit a linear regression model with forward selection of covariates on the training dataset.
+Fit a linear regression model and fit a linear regression model with forward selection of covariates on the training dataset.
 
-```{r,echo=FALSE}
+```{r}
 set.seed(1234)
 ctrl <- caret::trainControl(method = "repeatedcv",
                      number = 10,
@@ -52,9 +58,9 @@ forwardfit
 pred_for<-predict(forwardfit, newdata=testing)
 ```
   
-Fit a ridge regression model using your ridgereg1() function to the training dataset for diffrent values of $\lambda$. And the orignal function is not working with the package caret.
+Fit a ridge regression model using your ridgereg1() function to the training dataset for diffrent values of $\lambda$. And the orignal function is not working with the caret package.
   
-```{r,echo=FALSE}
+```{r}
 ## custom models in caret
 cm <- list(type = c("Classification", "Regression"),
            library = "lab7",
@@ -102,10 +108,12 @@ myfit <- caret::train( crim ~ .,
 )
 myfit
 ```
+We have looked for the best value for lambda using 10-fold cross-validation, and we know the best value for this model is ( $\lambda$ = 200).
 
-the best value (lambda = 200)
 
-comparasion of 3 models
+
+Now, we do a comparasion of the 3 models in the test dataset, and we can see that the plot of the three models are very similar:
+
 ```{r, echo=FALSE}
 m1 <- predict(lmfit, testing)
 m2 <- predict(forwardfit,testing)
@@ -114,7 +122,6 @@ m3 <- predict(myfit, testing)
 plot(m1, type = "l")
 plot(m2, type = "l")
 plot(m3, type = "l")
-
 
 ```
 
